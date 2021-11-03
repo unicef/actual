@@ -24,7 +24,8 @@ class NearestNeighborsNode:
 		return len(dists[0])
 
 	def run(self, data, parameters):
-		radius = parameters.get('radius_nearest_neighbor', DEFAULT_NEIGHBOR_RADIUS * DEGREES_PER_10KM)
+		radius = parameters.get('radius_nearest_neighbor', DEFAULT_NEIGHBOR_RADIUS)
+		radius *= DEGREES_PER_10KM
 		n_nearest = data.apply(lambda row: self.num_nearest_neighbors(row, radius), axis=1)
 		return n_nearest
 
