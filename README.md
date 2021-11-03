@@ -18,43 +18,28 @@ Several assumptions have been made in building each model, especially around use
 
 # Installation
 
-Make sure all dependencies are installed using the following links:
+The simplest way to setup the Giga environemnt is to install minconda.
+To do so, you can download the installer from the official Anaconda website [here](https://docs.conda.io/en/latest/miniconda.html).
 
-python3>=3.5.5
-MacOS: https://docs.python-guide.org/starting/install3/osx/
-You will need to install GCC and Homebrew to make this work, directions are in the above link
+Next, navigate to the Giga root directory and run: 
 
-pip==20.1.1
-Should be installed automatically by Homebrew when installing Python3
+```bash
+conda env create --name <your-environment> -f conda.yaml
+```
 
-pandas==0.25.1
-https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
+You can call your environment anything you want, but something simple like `giga` is usually recommended. The above will install all the python/binary dependencies needed to run and develop Giga models. Once the environment is created, let's activate it by running:
 
-matplotlib==3.1.1
-https://pypi.org/project/vega-datasets/
+```bash
+conda activate <your-environment>
+```
 
-rasterio==1.1.3
-https://rasterio.readthedocs.io/en/latest/installation.html
+Let's install the giga library itself, by navigating the the giga root directory and running:
 
-numpy==1.17.2
-https://scipy.org/install.html
+```bash
+pip install -e .
+```
 
-grispy==0.0.2 
-https://pypi.org/project/grispy/
-
-wheel==0.34.2
-https://pypi.org/project/wheel/
-
-altair==4.0.1
-https://altair-viz.github.io/getting_started/installation.html
-
-geopandas==0.7.0
-https://geopandas.org/install.html)
-
-vega_datasets==0.8.0
-Should be automatically installed with altair
-Otherwise: https://pypi.org/project/vega-datasets/
-
+Giga is installed and you should be ready to use the models! Please note that you will need to activate the giga environment every-time you open a new shell with `conda activate <your-environment>`. You can deactivate the environment by running `conda deactivate`.
 
 # Configuration
 Next, check the technology and project input files to make sure that the default inputs match with the context in which you are planning your own project.  These two files are:
