@@ -25,11 +25,11 @@ class TechnologyNode:
         self.bandwidth_input = kwargs.get('bandwidth_input', 'bandwidth')
         self.cell_coverage_input = kwargs.get('cell_coverage_input', 'Type of Cell Coverage')
         self.fiber_input = kwargs.get('fiber_input', 'Distance to Nearest Fiber')
-        self.output_4g = kwargs.get('output_4g', 'cell4G')
-        self.output_3g = kwargs.get('output_3g', 'cell3G')
-        self.output_2g = kwargs.get('output_2g', 'cell2G')
+        self.output_4g = kwargs.get('output_4g', '4G')
+        self.output_3g = kwargs.get('output_3g', '3G')
+        self.output_2g = kwargs.get('output_2g', '2G')
         self.output_fiber = kwargs.get('output_fiber', 'WISP')
-        self.output_sattelite = kwargs.get('output_satellite', 'satellite')
+        self.output_sattelite = kwargs.get('output_satellite', 'Sattelite')
 
     def valid_coverage(self, data, speed, coverage):
         if (data[self.bandwidth_input] < speed) and (data[self.cell_coverage_input] == coverage):
