@@ -66,7 +66,6 @@ def deserialize_params(p):
         deserealized[k] = pd.DataFrame(data=v)
     return deserealized
 
-
 def fetch_project_from_gsheet(docid):
     return fetch_from_gsheet(docid, *DEFAULT_PROJECT_PARAMS)
 
