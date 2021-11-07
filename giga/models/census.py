@@ -19,14 +19,13 @@ SCHOOL_USE_NERBY_COUNTS_VAR = 'school_use_nearby_counts'
 class CensusNode:
 
     def __init__(self, population_file,
-                       school_locations,
                        school_age_fraction,
                        school_enrollment_fraction,
                        student_teacher_ratio,
                        teacher_classroom_ratio,
                        people_per_household,
                        **kwargs):
-        location_input = kwargs.get('location_input', DEFAULT_LOCATION_INPUT)
+        self.location_input = kwargs.get('location_input', DEFAULT_LOCATION_INPUT)
         self.people_per_household = people_per_household
         self.school_use_radius = kwargs.get('school_use_radius', DEFAULT_SCHOOL_USE_RADIUS)
         self.internet_use_radius = kwargs.get('internet_use_radius', DEFAULT_INTERNET_USE_RADIUS)
@@ -40,11 +39,11 @@ class CensusNode:
         self.households_var = kwargs.get('households_output', 'nearby_households')
         # initialize compute nodes needed to perform a full census
         self.population_node = PopulationNode.from_tiff('population-node', population_file,
-                                                         location_input=location_input)
+                                                         location_input=self.location_input)
 
         self.nearest_neighbors_node = NearestNeighborsNode('nearest-neighbor-node',
-                                                           school_locations,
-                                                           location_input=location_input)
+                                                           np.zeros((1, len(self.location_input))), # default input
+                                                           location_input=self.location_input)
         self.student_node = StudentEstimateNode('student-node',
                                                 school_age_fraction,
                                                 school_enrollment_fraction,
@@ -56,6 +55,12 @@ class CensusNode:
         self.classroom_node = ClassroomEstimateNode('classroom-node',
                                                     teacher_classroom_ratio,
                                                     teacher_input=self.teacher_var)
+
+    def update_nodes(self, data, params):
+        # dynamically update nodes based on input data
+        # single update needed - reindex nearest neighbor node
+        locations = data[self.location_input].to_numpy()
+        self.nearest_neighbors_node.reindex(locations)
 
     def regional_census_estimate(self, data, params, radius, tag='school use'):
         n_neareby_schools = self.nearest_neighbors_node.run(data,
@@ -94,6 +99,8 @@ class CensusNode:
 
     def run(self, data, params):
         LOGGER.info("Starting census node")
+        # update nodes using input data if needed
+        self.update_nodes(data, params)
         # school use census estaimte
         n_neareby_schools, nearby_school_population = self.regional_census_estimate(data,
                                                                                     params,
