@@ -7,6 +7,13 @@ DEFAULT_CONSOLIDATION_RADIUS = 0.01 # km
 
 class ConsolidationNode:
 
+    """
+        Computational node that can be used to consolidate nearby data entries
+        This is a filter that removes data that falls within a consolidation radius of 
+            another data point in the input data set
+        Consolidation radius is assumed to be in km
+    """
+
     def __init__(self, name, **kwargs):
         self.name = name
         # optional position keys
