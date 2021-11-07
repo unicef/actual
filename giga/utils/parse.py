@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 
 
@@ -11,6 +12,7 @@ DEFAULT_ASSIGNMENT_PARAMS = ('0', range(0,3), 31, 37)
 DEFAULT_COMMUNITY_PARAMS = ('0', range(0,3), 40, 45)
 DEFAULT_LESSON_PARAMS = ('0', range(0,3), 48, 50)
 DEFAULT_TELEMEDICINE_PARAMS = ('0', range(0,3), 53, 58)
+DEFAULT_MODEL_PARAMS = ('0', range(0,3), 61, 64)
 DEFAULT_EMIS_PARAMS = ('0', range(4,10), 3, 20)
 DEFAULT_PORTAL_PARMS = ('0', range(11,18), 3, 9)
 DEFAULT_CONNECTIVITY_PARAMS = ('0', range(19,30), 3, 10)
@@ -46,6 +48,25 @@ def fetch_from_gsheet(docid,
     emis = format_gsheet_keys(fetch_from_excel(url, cols, row_start, row_end))
     return emis
 
+def to_ordered_dict(df):
+    out = []
+    for i, row in df.iterrows():
+        out.append(json.loads(row.to_json()))
+    return out
+
+def serialize_params(p):
+    serialized = {}
+    for k, v in p.items():
+        serialized[k] = to_ordered_dict(v)
+    return serialized
+
+def deserialize_params(p):
+    deserealized = {}
+    for k, v in p.items():
+        deserealized[k] = pd.DataFrame(data=v)
+    return deserealized
+
+
 def fetch_project_from_gsheet(docid):
     return fetch_from_gsheet(docid, *DEFAULT_PROJECT_PARAMS)
 
@@ -63,6 +84,9 @@ def fetch_lesson_from_gsheet(docid):
 
 def fetch_telemedicine_from_gsheet(docid):
     return fetch_from_gsheet(docid, *DEFAULT_TELEMEDICINE_PARAMS)
+
+def fetch_modelparams_from_gsheet(docid):
+    return fetch_from_gsheet(docid, *DEFAULT_MODEL_PARAMS)
 
 def fetch_emis_from_gsheet(docid):
     return fetch_from_gsheet(docid, *DEFAULT_EMIS_PARAMS)
@@ -83,7 +107,11 @@ def fetch_all_params_from_gsheet(docid):
             'community': fetch_community_from_gsheet(docid),
             'lesson': fetch_lesson_from_gsheet(docid),
             'telemedicine': fetch_telemedicine_from_gsheet(docid),
+            'model': fetch_modelparams_from_gsheet(docid),
             'emis': fetch_emis_from_gsheet(docid),
             'portal': fetch_portal_from_gsheet(docid),
             'connectivity': fetch_connectivity_from_gsheet(docid),
             'energy': fetch_energy_from_gsheet(docid)}
+
+def fetch_default_params():
+    return fetch_all_params_from_gsheet(DEFAULT_DOCID)
