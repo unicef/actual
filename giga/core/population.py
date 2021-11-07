@@ -67,8 +67,8 @@ class PopulationNode:
             return False
 
     def compute_nearby_population(self, datarow, radius):
-        #xidx, yidx = self.ll_to_pixel_transform((datarow[self.lon_input], datarow[self.lat_input]))
-        xidx, yidx = self.ll_to_pixel_transform((datarow[self.location_input]))
+        lat, lon = datarow[self.location_input]
+        xidx, yidx = self.ll_to_pixel_transform((lon, lat))
         radius_catchment = radius / self.pixel_resolution
         if self.out_of_country(xidx, yidx, radius_catchment):
             return 0.0
