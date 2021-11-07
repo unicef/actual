@@ -2,7 +2,7 @@ from grispy import GriSPy
 
 
 DEGREES_PER_1KM = 0.0089 # Degrees per 1 km
-DEFAULT_NEIGHBOR_RADIUS = 0.01 # km
+DEFAULT_CONSOLIDATION_RADIUS = 0.01 # km
 
 
 class ConsolidationNode:
@@ -10,10 +10,14 @@ class ConsolidationNode:
 	def __init__(self, name, **kwargs):
 		self.name = name
 		# optional position keys
+		self.consolidation_radius = kwargs.get('consolidation_radius', DEFAULT_CONSOLIDATION_RADIUS)
 		self.pt_input = kwargs.get('pt_input', ['Lat', 'Lon'])
 		self.dim = len(self.pt_input)
 
 	def consolidate(self, data, radius):
+		# consolidates data based on its location in self.pt_input
+		# returns a consolidated subset of data where data points with location within specified radius have been filtered out
+		radius *= DEGREES_PER_1KM # trasnform to degrees
 		identifiers = set()
 		consolidated = []
 		pts = data[self.pt_input].to_numpy()
@@ -32,8 +36,7 @@ class ConsolidationNode:
 		return consolidated
 
 	def run(self, data, parameters):
-		radius = parameters.get('radius_consolidate', DEFAULT_NEIGHBOR_RADIUS)
-		radius *= DEGREES_PER_1KM
+		radius = parameters.get('consolidation_radius', self.consolidation_radius)
 		consolidated = self.consolidate(data, radius)
 		return consolidated
 

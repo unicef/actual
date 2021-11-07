@@ -11,14 +11,14 @@ class NearestNeighborsNode:
 		self.name = name
 		self.index = GriSPy(pts)
 		# optional position keys
-		self.pt_input = kwargs.get('pt_input', ['Lat', 'Lon'])
-		self.dim = len(self.pt_input)
+		self.location_input = kwargs.get('location_input', ['Lat', 'Lon'])
+		self.dim = len(self.location_input)
 
 	def reindex(self, pts):
 		self.index = GriSPy(pts)
 
 	def num_nearest_neighbors(self, datarow, radius):
-		pt = datarow[self.pt_input]
+		pt = datarow[self.location_input]
 		pt = pt.to_numpy(dtype=float).reshape(1, self.dim)
 		dists, idxs = self.index.bubble_neighbors(pt, distance_upper_bound=radius, sorted=True)
 		return len(dists[0])
