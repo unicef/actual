@@ -20,6 +20,9 @@ DEFAULT_ENERGY_PARAMS = ('0', range(32,40), 3, 5)
 
 
 
+def shool_data_from_excel(file):
+    return pd.read_excel(file, engine='openpyxl')
+
 def get_gsheet_download_url(docid, gid="0"):
     return f"https://docs.google.com/spreadsheets/d/{docid}/export?format=xlsx&gid={gid}"
 
