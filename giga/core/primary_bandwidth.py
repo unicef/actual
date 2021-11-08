@@ -9,9 +9,9 @@ TEACHERS_PER_EMPLOYEE = 10
 
 REQUIRED_ARGUMENTS = ('emis_usage', 'portal_usage', 'emis_allowable_transfer_time', 'peak_hours',
                       'internet_browsing_bandwidth', 'allowable_website_loading_time', 'contention')
-OPTIONAL_ARGUMENTS = {'user_input': 'user_input',
+OPTIONAL_ARGUMENTS = {'user_input': 'User',
                       'size_input': 'Size',
-                      'freqeuncy_input': 'Frequency',
+                      'frequency_input': 'Frequency',
                       'timeperiod_input': 'Time Period (Days)',
                       'student_input': 'num_students',
                       'teacher_input': 'num_teachers',

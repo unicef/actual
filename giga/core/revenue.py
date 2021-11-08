@@ -1,6 +1,6 @@
 
 
-REQUIRED_ARGUMENTS = ('conn_params', 'subscription_conversion_default', 'fraction_community_using_school_internet',
+REQUIRED_ARGUMENTS = ('connectivity_params', 'subscription_conversion_default', 'fraction_community_using_school_internet',
                       'income_per_household', 'fraction_income_for_communications')
 OPTIONAL_ARGUMENTS = {'households_input': 'nearby_households',
                       'coverage_input': 'Type of Cell Coverage',
@@ -18,11 +18,11 @@ class RevenueNode:
             setattr(self, attr, kwargs.get(attr))
         for attr in OPTIONAL_ARGUMENTS.keys():
             setattr(self, attr, kwargs.get(attr, OPTIONAL_ARGUMENTS[attr]))
-        self.conn_types = set(self.conn_params['Type'])
+        self.conn_types = set(self.connectivity_params['Type'])
 
     def estiamte_conversion(self, coverage):
         if coverage in self.conn_types:
-            return float(self.conn_params[self.conn_params['Type'] == coverage]['Subscription Conversion Rate'])
+            return float(self.connectivity_params[self.connectivity_params['Type'] == coverage]['Subscription Conversion Rate'])
         else:
             return self.subscription_conversion_default
 

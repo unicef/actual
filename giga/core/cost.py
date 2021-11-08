@@ -7,7 +7,7 @@ CONNECTIVITY_TYPE_IDENTIFIER = 'Type'
 OVERNIGHT_COST_VAR = 'overnight'
 ANNUAL_COST_VAR = 'annual'
 
-REQUIRED_ARGUMENTS = ('tech_costs', 'energy_costs', 'labor_cost_skilled', 'labor_cost_regular')
+REQUIRED_ARGUMENTS = ('connectivity_params', 'energy_params', 'labor_cost_skilled', 'labor_cost_regular')
 OPTIONAL_ARGUMENTS = {'technology_input': 'technology',
                       'power_parameter': 'Power',
                       'solar_parameter': 'Solar',
@@ -26,25 +26,25 @@ class CostEstimateNode:
 
     @property
     def battery_cost(self):
-        return self.energy_costs[self.energy_cost[ENERGY_TYPE_IDENTIFIER] == self.battery_parameter]
+        return self.energy_params[self.energy_params[ENERGY_TYPE_IDENTIFIER] == self.battery_parameter]
 
     @property
     def solar_cost(self):
-        return self.energy_costs[self.energy_cost[ENERGY_TYPE_IDENTIFIER] == self.solar_parameter]
+        return self.energy_params[self.energy_params[ENERGY_TYPE_IDENTIFIER] == self.solar_parameter]
 
     def estimate_overnight_fixed_cost(self):
-        labor = self.tech_costs['Overnight Labor Fixed'] * self.labor_cost_skilled
-        return self.tech_costs['Setup Fees'] + self.tech_costs['Overnight Hardware Fixed'] + labor
+        labor = self.connectivity_params['Overnight Labor Fixed'] * self.labor_cost_skilled
+        return self.connectivity_params['Setup Fees'] + self.connectivity_params['Overnight Hardware Fixed'] + labor
 
     def estimate_annual_cost(self, fixed):
-        hw_cost = self.tech_costs['Annual Hardware'] * fixed
-        labor_cost = self.tech_costs['Annual Labor Time'] * self.labor_cost_regular
-        return hw_cost + labor_cost + self.tech_costs['Annual Fees']
+        hw_cost = self.connectivity_params['Annual Hardware'] * fixed
+        labor_cost = self.connectivity_params['Annual Labor Time'] * self.labor_cost_regular
+        return hw_cost + labor_cost + self.connectivity_params['Annual Fees']
 
     def compute_technology_cost_estimates(self):
         overnight_fixed_cost = self.estimate_overnight_fixed_cost()
         annual_cost = self.estimate_annual_cost(overnight_fixed_cost)
-        costs = self.tech_costs.copy()
+        costs = self.connectivity_params.copy()
         costs[OVERNIGHT_COST_VAR] = overnight_fixed_cost
         costs[ANNUAL_COST_VAR] = annual_cost
         return costs

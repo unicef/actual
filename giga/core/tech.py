@@ -14,7 +14,7 @@ OPTIONAL_ARGUMENTS = {'fiber_range': 10.0, # km
                       'output_3g': '3G',
                       'output_2g': '2G',
                       'output_fiber': 'WISP',
-                      'output_satellite': 'Sattelite'}
+                      'output_sattelite': 'Sattelite'}
 
 
 class TechnologyNode:
