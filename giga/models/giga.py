@@ -7,9 +7,34 @@ from giga.core.revenue import RevenueNode
 from giga.core.business import BusinessModelNode
 from giga.utils.logging import LOGGER
 
-DEFAULT_LOCATION_INPUT = ['Lat', 'Lon']
+
 REQUIRED_INPUTS = ['tiff_file']
 FIXED_BANDWIDTH_FLAG = 'fixed_bandwidth'
+
+REQUIRED_ARGUMENTS = ('population_file', 'consolidation_radius', 'school_age_fraction', # census
+                      'school_enrollment_fraction', 'student_teacher_ratio', 'teacher_classroom_ratio',
+                      'people_per_household', 'school_use_radius', 'internet_use_radius',
+                      'emis_usage', 'portal_usage', 'emis_allowable_transfer_time', 'peak_hours', # bandwidth
+                      'internet_browsing_bandwidth', 'allowable_website_loading_time',
+                      'contention', 'fixed_bandwidth_rate',
+                      'speed_2g', 'speed_3g', 'speed_4g', # tech
+                      'connectivity_params', 'energy_params', 'labor_cost_skilled', 'labor_cost_regular', # cost
+                      'subscription_conversion_default', 'fraction_community_using_school_internet', # revenue
+                      'income_per_household', 'fraction_income_for_communications',
+                      'revenue_over_cost_factor') # biz
+OPTIONAL_ARGUMENTS = {'location_input': ['Lat', 'Lon'],
+                      'student_output':'num_students',
+                      'teacher_output': 'num_teachers',
+                      'classroom_output': 'num_classrooms',
+                      'population_output': 'nearby_population',
+                      'households_output': 'nearby_households',
+                      'bandwidth_output': 'bandwidth',
+                      'technology_output': 'technology',
+                      'overnight_cost_output': 'overnight_cost',
+                      'annual_cost_output': 'annual_cost',
+                      'annual_revenue_output': 'annual_revenue',
+                      'business_model_output': 'explore_business_model'}
+
 
 class GigaNode:
 
@@ -17,147 +42,36 @@ class GigaNode:
         Computational Node that encapsulates the end-to-end Giga model
     """
 
-    def __init__(self, 
-                 population_file_tiff,
-                 consolidation_radius,
-                 school_age_fraction,
-                 school_enrollment_fraction,
-                 student_teacher_ratio,
-                 teacher_classroom_ratio,
-                 people_per_household,
-                 school_use_radius,
-                 internet_use_radius,
-
-                 emis_params,
-                 portal_params,
-                 emis_allowable_transfer_time,
-                 peak_hours,
-                 internet_browsing_bandwidth,
-                 allowable_website_loading_time,
-                 contention,
-                 fixed_bandwidth_rate,
-
-                 speed_2g,
-                 speed_3g,
-                 speed_4g,
-
-                 conn_params,
-                 energy_params,
-                 labor_cost_skilled_hr,
-                 labor_cost_regular_hr,
-
-                 subscription_conversion_default,
-                 fraction_community_using_school_internet,
-                 income_per_household,
-                 fraction_income_for_communications,
-
-                 revenue_over_cost_factor,
-
-                 **kwargs):
-        # TODO: reduce input size, make census_params, bandwidth_params, tech_params
-
-        # project inputs
-        self.fixed_bandwidth_rate = fixed_bandwidth_rate
-        # optional arguments
-        self.location_input = kwargs.get('location_input', DEFAULT_LOCATION_INPUT) # dataframe keys for school locations
+    def __init__(self, name, **kwargs):
+        for k in REQUIRED_ARGUMENTS:
+            assert k in kwargs, f"Missing required argument {k}"
+        for attr in REQUIRED_ARGUMENTS:
+            setattr(self, attr, kwargs.get(attr))
+        for attr in OPTIONAL_ARGUMENTS.keys():
+            setattr(self, attr, kwargs.get(attr, OPTIONAL_ARGUMENTS[attr]))
 
         # initalize compute steps
         # consolidation
-        self.consolidation_node = ConsolidationNode('consolidation-node', consolidation_radius=consolidation_radius)
+        self.consolidation_node = ConsolidationNode('consolidation-node', **kwargs)
         # census
-        self.census_node = CensusNode(population_file_tiff,
-                                      school_age_fraction,
-                                      school_enrollment_fraction,
-                                      student_teacher_ratio,
-                                      teacher_classroom_ratio,
-                                      people_per_household,
-                                      school_use_radius=school_use_radius,
-                                      internet_use_radius=internet_use_radius)
+        self.census_node = CensusNode('census-node', **kwargs)
         # bandwidth
-        self.primary_bandwidth_node = PrimaryBandwithNode('bandwidth-node',
-                                                          emis_params,
-                                                          portal_params,
-                                                          emis_allowable_transfer_time,
-                                                          peak_hours,
-                                                          internet_browsing_bandwidth,
-                                                          allowable_website_loading_time,
-                                                          contention)
-
+        self.primary_bandwidth_node = PrimaryBandwithNode('bandwidth-node', **kwargs)
         # tech
-        self.technology_node = TechnologyNode('technology-node',
-                                              speed_4g,
-                                              speed_3g,
-                                              speed_2g)
-
+        self.technology_node = TechnologyNode('technology-node', **kwargs)
         # cost
-        self.cost_node = CostEstimateNode('cost-node',
-                                          conn_params,
-                                          energy_params,
-                                          labor_cost_skilled_hr,
-                                          labor_cost_regular_hr)
-
+        self.cost_node = CostEstimateNode('cost-node', **kwargs)
         # revenue
-        self.revenue_node = RevenueNode('revenue-node',
-                                         conn_params,
-                                         subscription_conversion_default,
-                                         fraction_community_using_school_internet,
-                                         income_per_household,
-                                         fraction_income_for_communications)
-
+        self.revenue_node = RevenueNode('revenue-node', **kwargs)
         # business
-        self.business_node = BusinessModelNode('business-node', revenue_over_cost_factor)
+        self.business_node = BusinessModelNode('business-node', **kwargs)
 
-        # output vars
-        self.student_output = kwargs.get('student_output', 'num_students')
-        self.teacher_output = kwargs.get('teacher_output', 'num_teachers')
-        self.classroom_output = kwargs.get('classroom_output', 'num_classrooms')
-        self.population_output = kwargs.get('population_output', 'nearby_population')
-        self.households_output = kwargs.get('households_output', 'nearby_households')
-        self.bandwidth_output = kwargs.get('bandwidth_output', 'bandwidth')
-        self.technology_output = kwargs.get('technology_output', 'technology')
-        self.overnight_cost_output = kwargs.get('overnight_cost_output', 'overnight_cost')
-        self.annual_cost_output = kwargs.get('annual_cost_output', 'annual_cost')
-        self.annual_revenue_output = kwargs.get('annual_revenue_output', 'annual_revenue')
-        self.business_model_output = kwargs.get('business_model_output', 'explore_business_model')
-
-    def from_giga_parameters(parameters, population_file_tiff, **kwargs):
-        return GigaNode(population_file_tiff,
-                        # census
-                        parameters.consolidation_radius,
-                        parameters.school_age_fraction,
-                        parameters.school_enrollment_fraction,
-                        parameters.student_teacher_ratio,
-                        parameters.teacher_classroom_ratio,
-                        parameters.people_per_household,
-                        parameters.school_use_radius,
-                        parameters.internet_use_radius,
-                        # bandwidth
-                        parameters.emis,
-                        parameters.portal,
-                        parameters.emis_allowable_transfer_time,
-                        parameters.peak_hours,
-                        parameters.internet_browsing_bandwidth,
-                        parameters.allowable_website_loading_time,
-                        parameters.contention,
-                        parameters.fixed_bandwidth_rate,
-                        # technology
-                        parameters.speed_2g,
-                        parameters.speed_3g,
-                        parameters.speed_4g,
-                        # cost
-                        parameters.connectivity,
-                        parameters.energy,
-                        parameters.labor_cost_skilled_hr,
-                        parameters.labor_cost_regular_hr,
-                        # revenue
-                        parameters.subscription_conversion_default,
-                        parameters.fraction_community_using_school_internet,
-                        parameters.income_per_household,
-                        parameters.fraction_income_for_communications,
-                        # business
-                        parameters.revenue_over_cost_factor,
-                        **kwargs)
-
+    def from_giga_parameters(name, parameters, population_file_tiff, **kwargs):
+        kwargs = {**kwargs, 
+                  **vars(parameters),
+                  **parameters.cell_connectivity_speeds,
+                  **{'population_file': population_file_tiff}}
+        return GigaNode(name, **kwargs)
 
     def consolidate(self, data, params):
         to_consolidate = self.consolidation_node.run(data, params)
@@ -229,6 +143,3 @@ class GigaNode:
         # run business model
         giga_data = self.business(giga_data, params)
         return giga_data
-
-
-
