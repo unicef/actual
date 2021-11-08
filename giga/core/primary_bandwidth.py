@@ -8,7 +8,8 @@ TEACHERS_PER_EMPLOYEE = 10
 
 class PrimaryBandwithNode:
 
-    def __init__(self, emis_usage,
+    def __init__(self, name,
+                       emis_usage,
                        portal_usage, 
                        emis_allowable_transfer_time_hrs,
                        peak_hours,
@@ -16,6 +17,7 @@ class PrimaryBandwithNode:
                        allowable_website_loading_time,
                        contention,
                        **kwargs):
+        self.name = name
         self.emis_usage = emis_usage
         self.portal_usage = portal_usage
         self.emis_allowable_transfer_time = emis_allowable_transfer_time_hrs * SEC_PER_HR
