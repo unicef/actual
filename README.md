@@ -42,35 +42,20 @@ pip install -e .
 Giga is installed and you should be ready to use the models! Please note that you will need to activate the giga environment every-time you open a new shell with `conda activate <your-environment>`. You can deactivate the environment by running `conda deactivate`.
 
 # Configuration
-Next, check the technology and project input files to make sure that the default inputs match with the context in which you are planning your own project.  These two files are:
 
-`projectInputs.py` - defines demographic and usage inputs
-`techInputs.py` - defines connectivity, power requirements, energy generation, and energy storage costs, performance, and labor times
-
-Then, verify that the labor rates at the bottom of `projectInputs.py` and the annual ISP fees in `techInputs.py` are correct. These are the most likely to vary from region to region. Other costs such as hardware costs are less likely to vary between regions (though tarriffs might cause significant discrepancies), and the connectivity needs of teachers, students, and the community are likely to vary more between schools within a region than between regional averages.
-
-Select the configuration options in `projectInputs.py` under configuration. Both P0 and P1 computations are on by default.
-
-Adjust the country input files, under the `args.Country` section.
-
-`schoolDataPath` should be the path to an xlsx file with columns described in model documentation
-`popDataPath` should be a 100 meter square population GeoTiff file
-
-Note that you can define the “country” to be anything, so if a country has provided multiple school datasets you can define each one with a unique ID. The script was initially written to take these parameters from the command line, however defining the input files directly in the script is an easy way to save multiple configurations and inputs, and avoids errors of mixing and matching the wrong inputs.
-
-The technology selection flow is contained in `analysis.py`. Adjust the fiber radii, WISP radii, and flowdown order if the default fiber->WISP->cell->satellite order is different in your locale.
-
+There are a number of ways to configure the Giga models. 
+The reccomended way is to start with the google spreadsheet [here](https://docs.google.com/spreadsheets/d/1LsOLtcZG8FO9uF79H7Z_PdN6iHkuMyr5TXw3UllbahE/edit#gid=0) that defines the key model parameters. Note that there are quite a few parameters.
+You are welcome to create a copy of this spreadsheet that you can reconfigure.
+Please note, that you will need to use the google sheet ID of your new created document in order to pull the parameters from your copy of the sheet.
+You can find additional instructions on how to do this in the example jupyter-notebook.
+Next, you will need school data and (optionally) population data. 
+You can use the tooling in the library to autmatically fetch relevant population data when you create a `giga` workspace. 
+If school data is avaible, you can try out using the [sample notebook](https://drive.google.com/file/d/1tyHxSsp0G3_S1g0Zvwlm2QBj9hb7gEcR/view?usp=sharing) to generate visual outputs of the model. 
 
 # Running
-Running the script is simple:
+To run the `giga` models, you can use the jupyter-notebook [here](https://drive.google.com/file/d/1tyHxSsp0G3_S1g0Zvwlm2QBj9hb7gEcR/view?usp=sharing).
 
->python3 analysis.py -C ‘countryname’
-
-Where `countryname` is the value you have selected for your `args.Country`. The analysis will output to `school_output.csv` which you can then analyze using `plotAnalysis.py`.
-
-`plotAnalysis.py` has a similar `args.Country` section where you can hardcode the path to your `school_output.csv` and a corresponding shapefile for the country borders. You can run this with:
-
->python3 plotAnalysis.py -C ‘countryname’
+Additionally, you can use the command line interface made availble by the library to run the Giga models from the shell.
 
 # About Giga: 
 Some 3.6 billion people in the world do not have access to the Internet. The lack of access to the internet means exclusion, marked by the lack of access to the wealth of information available online, fewer resources to learn and grow, and limited opportunities for the most vulnerable children and youth to fulfill their potential. Closing the digital divide requires global cooperation, leadership, and innovation in finance and technology. 
