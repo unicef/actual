@@ -7,6 +7,27 @@ from giga.utils.parse import fetch_all_params_from_gsheet, serialize_params, des
 NAMED_PARAMETERS = ['project', 'usage', 'assignment', 'community', 'lesson', 'telemedicine', 'model']
 TABULAR_PARAMETERS = ['emis', 'portal', 'connectivity', 'energy']
 
+SPREADSHEET_TO_GIGA_MAP = {'School Consolidation Radius': 'consolidation_radius', 'School Age Fraction': 'school_age_fraction',
+                           'School Enrollment Fraction': 'school_enrollment_fraction',
+                           'Student Teacher Ratio': 'student_teacher_ratio',
+                           'Teacher Classroom Ratio': 'teacher_classroom_ratio',
+                           'People per Household': 'people_per_household',
+                           'School Use Radius': 'school_use_radius',
+                           'Internet Use Radius': 'internet_use_radius',
+                           'EMIS Allowable Transfer Time': 'emis_allowable_transfer_time','Peak Hours': 'peak_hours',
+                           'Internet Browsing Bandwidth': 'internet_browsing_bandwidth',
+                           'Allowable Website Loading Time': 'allowable_website_loading_time','Contention': 'contention',
+                           'Fixed Bandwidth Rate': 'fixed_bandwidth_rate',
+                           'Skilled Labor Cost per Hour': 'labor_cost_skilled',
+                           'Regular Labor Cost per Hour': 'labor_cost_regular',
+                           'Default Subscription Conversion Rate': 'subscription_conversion_default',
+                           'Fraction of Community Using School Internet': 'fraction_community_using_school_internet',
+                           'Income per Household': 'income_per_household',
+                           'Fraction of Income on Communications': 'fraction_income_for_communications',
+                           'Revenue Over Cost Factor': 'revenue_over_cost_factor',
+                           'emis': 'emis_usage','portal': 'portal_usage', 'connectivity': 'connectivity_params',
+                           'energy': 'energy_params'}
+
 
 class GigaParameters:
 
@@ -18,6 +39,11 @@ class GigaParameters:
             named = {row['Name']: row['Value'] for _, row in params[n].iterrows()}
             self.named_params = {**self.named_params, **named}
         self.table_params = {n: params[n] for n in TABULAR_PARAMETERS}
+        for param, val in self.named_params.items():
+            if param in SPREADSHEET_TO_GIGA_MAP:
+                setattr(self, SPREADSHEET_TO_GIGA_MAP[param], val)
+        for param, val in self.table_params.items():
+            setattr(self, SPREADSHEET_TO_GIGA_MAP[param], val)
 
     @staticmethod
     def from_google_sheet(docid):
@@ -39,113 +65,7 @@ class GigaParameters:
         return float(self.table_params['connectivity'][self.table_params['connectivity']['Type'] == conn_type]['Speed'])
 
     @property
-    def emis(self):
-        return self.table_params['emis']
-
-    @property
-    def portal(self):
-        return self.table_params['portal']
-
-    @property
-    def connectivity(self):
-        return self.table_params['connectivity']
-
-    @property
-    def energy(self):
-        return self.table_params['energy']
-
-    @property
-    def fixed_bandwidth_rate(self):
-        return self.named_params['Fixed Bandwidth Rate']
-
-    @property
-    def consolidation_radius(self):
-        return self.named_params['School Consolidation Radius']
-
-    @property
-    def school_use_radius(self):
-        return self.named_params['School Use Radius']
-
-    @property
-    def internet_use_radius(self):
-        return self.named_params['Internet Use Radius']
-
-    @property
-    def school_age_fraction(self):
-        return self.named_params['School Age Fraction']
-
-    @property
-    def school_enrollment_fraction(self):
-        return self.named_params['School Enrollment Fraction']
-
-    @property
-    def student_teacher_ratio(self):
-        return self.named_params['Student Teacher Ratio']
-
-    @property
-    def teacher_classroom_ratio(self):
-        return self.named_params['Teacher Classroom Ratio']
-
-    @property
-    def people_per_household(self):
-        return self.named_params['People per Household']
-
-    @property
-    def emis_allowable_transfer_time(self):
-        return self.named_params['EMIS Allowable Transfer Time']
-
-    @property
-    def peak_hours(self):
-        return self.named_params['Peak Hours']
-
-    @property
-    def internet_browsing_bandwidth(self):
-        return self.named_params['Internet Browsing Bandwidth']
-
-    @property
-    def allowable_website_loading_time(self):
-        return self.named_params['Allowable Website Loading Time']
-
-    @property
-    def contention(self):
-        return self.named_params['Contention']
-
-    @property
-    def labor_cost_skilled_hr(self):
-        return self.named_params['Skilled Labor Cost per Hour']
-
-    @property
-    def labor_cost_regular_hr(self):
-        return self.named_params['Regular Labor Cost per Hour']
-
-    @property
-    def fraction_community_using_school_internet(self):
-        return self.named_params['Fraction of Community Using School Internet']
-
-    @property
-    def income_per_household(self):
-        return self.named_params['Income per Household']
-
-    @property
-    def fraction_income_for_communications(self):
-        return self.named_params['Fraction of Income on Communications']
-
-    @property
-    def subscription_conversion_default(self):
-        return self.named_params['Default Subscription Conversion Rate']
-
-    @property
-    def revenue_over_cost_factor(self):
-        return self.named_params['Revenue Over Cost Factor']
-
-    @property
-    def speed_2g(self):
-        return self.connectivity_speed('2G')
-
-    @property
-    def speed_3g(self):
-        return self.connectivity_speed('3G')
-
-    @property
-    def speed_4g(self):
-        return self.connectivity_speed('4G')
+    def cell_connectivity_speeds(self):
+        return {'speed_2g': self.connectivity_speed('2G'),
+                'speed_3g': self.connectivity_speed('3G'),
+                'speed_4g': self.connectivity_speed('4G')}
