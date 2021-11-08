@@ -10,7 +10,7 @@ class NearestNeighborsNode:
     def __init__(self, name, pts, **kwargs):
         self.name = name
         self.index = GriSPy(pts)
-        # optional position keys
+        # optional location input arg
         self.location_input = kwargs.get('location_input', ['Lat', 'Lon'])
         self.dim = len(self.location_input)
 

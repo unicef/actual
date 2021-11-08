@@ -4,10 +4,10 @@ import rasterio
 from giga.utils.geom import points_in_circle
 
 
-DEFAULT_PIXEL_RESOLUTION = 0.100 # km per pixel
-DEFAULT_CENSUS_RADIUS = 10.0 # km
-DEFAULT_MAXIMUM_CENSUS_RADIUS = 200.0 # km
-DEFAULT_LOCATION_INPUT = ['Lat', 'Lon']
+OPTIONAL_ARGUMENTS = {'max_census_radius': 200.0, # km
+                      'census_radius': 10.0, # km
+                      'pixel_resolution': 0.100, # km per pixel
+                      'location_input': ['Lat', 'Lon']}
 
 
 class PopulationNode:
@@ -32,13 +32,8 @@ class PopulationNode:
         self.dataset_height = population_data.shape[0]
         self.dataset_width = population_data.shape[1]
         self.ll_to_pixel_transform = ll_to_pixel_transform_callback
-        # optional key word args
-        self.max_census_radius = kwargs.get('max_census_radius', DEFAULT_MAXIMUM_CENSUS_RADIUS)
-        self.census_radius = kwargs.get('census_radius', DEFAULT_CENSUS_RADIUS)
-        self.pixel_resolution = kwargs.get('pixel_resolution', DEFAULT_PIXEL_RESOLUTION)
-        self.location_input = kwargs.get('location_input', DEFAULT_LOCATION_INPUT)
-        self.lon_input = kwargs.get('lon_input', 'Lon')
-        self.lat_input = kwargs.get('lat_input', 'Lat')
+        for attr in OPTIONAL_ARGUMENTS.keys():
+            setattr(self, attr, kwargs.get(attr, OPTIONAL_ARGUMENTS[attr]))
 
     @staticmethod
     def from_tiff(node_name, tiff_file, **kwargs):

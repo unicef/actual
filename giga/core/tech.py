@@ -1,35 +1,31 @@
+
+
 COVERAGE_4G = '4G'
 COVERAGE_3G = '3G'
 COVERAGE_2G = '2G'
 
-DEFAULT_FIBER_RANGE = 10 # km
-DEFAULT_WISP_RANGE = 5 # km
+REQUIRED_ARGUMENTS = ('speed_4g', 'speed_3g', 'speed_2g')
+OPTIONAL_ARGUMENTS = {'fiber_range': 10.0, # km
+                      'wisp_range': 5.0, # km
+                      'bandwidth_input': 'bandwidth',
+                      'cell_coverage_input': 'Type of Cell Coverage',
+                      'fiber_input': 'Distance to Nearest Fiber',
+                      'output_4g': '4G',
+                      'output_3g': '3G',
+                      'output_2g': '2G',
+                      'output_fiber': 'WISP',
+                      'output_satellite': 'Sattelite'}
 
 
 class TechnologyNode:
 
-    def __init__(self,
-                 name,
-                 speed_4g,
-                 speed_3g,
-                 speed_2g,
-                 **kwargs):
+    def __init__(self, name, **kwargs):
         self.name = name
-        self.speed_4g = speed_4g
-        self.speed_3g = speed_3g
-        self.speed_2g = speed_2g
-
-        # optional
-        self.fiber_range = kwargs.get('fiber_range', DEFAULT_FIBER_RANGE)
-        self.wisp_range = kwargs.get('wisp_range', DEFAULT_WISP_RANGE)
-        self.bandwidth_input = kwargs.get('bandwidth_input', 'bandwidth')
-        self.cell_coverage_input = kwargs.get('cell_coverage_input', 'Type of Cell Coverage')
-        self.fiber_input = kwargs.get('fiber_input', 'Distance to Nearest Fiber')
-        self.output_4g = kwargs.get('output_4g', '4G')
-        self.output_3g = kwargs.get('output_3g', '3G')
-        self.output_2g = kwargs.get('output_2g', '2G')
-        self.output_fiber = kwargs.get('output_fiber', 'WISP')
-        self.output_sattelite = kwargs.get('output_satellite', 'Sattelite')
+        assert all([k in kwargs for k in REQUIRED_ARGUMENTS]), f"Missing one or more required arguments {REQUIRED_ARGUMENTS}"
+        for attr in REQUIRED_ARGUMENTS:
+            setattr(self, attr, kwargs.get(attr))
+        for attr in OPTIONAL_ARGUMENTS.keys():
+            setattr(self, attr, kwargs.get(attr, OPTIONAL_ARGUMENTS[attr]))
 
     def valid_coverage(self, data, speed, coverage):
         if (data[self.bandwidth_input] < speed) and (data[self.cell_coverage_input] == coverage):

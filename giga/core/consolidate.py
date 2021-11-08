@@ -4,6 +4,9 @@ from grispy import GriSPy
 DEGREES_PER_1KM = 0.0089 # Degrees per 1 km
 DEFAULT_CONSOLIDATION_RADIUS = 0.01 # km
 
+OPTIONAL_ARGUMENTS = {'consolidation_radius': DEFAULT_CONSOLIDATION_RADIUS,
+                      'location_input': ['Lat', 'Lon']}
+
 
 class ConsolidationNode:
 
@@ -17,8 +20,8 @@ class ConsolidationNode:
     def __init__(self, name, **kwargs):
         self.name = name
         # optional position keys
-        self.consolidation_radius = kwargs.get('consolidation_radius', DEFAULT_CONSOLIDATION_RADIUS)
-        self.location_input = kwargs.get('location_input', ['Lat', 'Lon'])
+        for attr in OPTIONAL_ARGUMENTS.keys():
+            setattr(self, attr, kwargs.get(attr, OPTIONAL_ARGUMENTS[attr]))
         self.dim = len(self.location_input)
 
     def consolidate(self, data, radius):
