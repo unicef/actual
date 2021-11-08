@@ -12,11 +12,11 @@ DEFAULT_ASSIGNMENT_PARAMS = ('0', range(0,3), 31, 37)
 DEFAULT_COMMUNITY_PARAMS = ('0', range(0,3), 40, 45)
 DEFAULT_LESSON_PARAMS = ('0', range(0,3), 48, 50)
 DEFAULT_TELEMEDICINE_PARAMS = ('0', range(0,3), 53, 58)
-DEFAULT_MODEL_PARAMS = ('0', range(0,3), 61, 64)
+DEFAULT_MODEL_PARAMS = ('0', range(0,3), 61, 66)
 DEFAULT_EMIS_PARAMS = ('0', range(4,10), 3, 20)
 DEFAULT_PORTAL_PARMS = ('0', range(11,18), 3, 9)
-DEFAULT_CONNECTIVITY_PARAMS = ('0', range(19,30), 3, 10)
-DEFAULT_ENERGY_PARAMS = ('0', range(31,39), 3, 5)
+DEFAULT_CONNECTIVITY_PARAMS = ('0', range(19,31), 3, 10)
+DEFAULT_ENERGY_PARAMS = ('0', range(32,40), 3, 5)
 
 
 
@@ -66,51 +66,18 @@ def deserialize_params(p):
         deserealized[k] = pd.DataFrame(data=v)
     return deserealized
 
-def fetch_project_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_PROJECT_PARAMS)
-
-def fetch_usage_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_USAGE_PARAMS)
-
-def fetch_assignment_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_ASSIGNMENT_PARAMS)
-
-def fetch_community_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_COMMUNITY_PARAMS)
-
-def fetch_lesson_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_LESSON_PARAMS)
-
-def fetch_telemedicine_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_TELEMEDICINE_PARAMS)
-
-def fetch_modelparams_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_MODEL_PARAMS)
-
-def fetch_emis_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_EMIS_PARAMS)
-
-def fetch_portal_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_PORTAL_PARMS)
-
-def fetch_connectivity_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_CONNECTIVITY_PARAMS)
-
-def fetch_energy_from_gsheet(docid):
-    return fetch_from_gsheet(docid, *DEFAULT_ENERGY_PARAMS)
-
 def fetch_all_params_from_gsheet(docid):
-    return {'project': fetch_project_from_gsheet(docid),
-            'usage': fetch_usage_from_gsheet(docid),
-            'assignment': fetch_assignment_from_gsheet(docid),
-            'community': fetch_community_from_gsheet(docid),
-            'lesson': fetch_lesson_from_gsheet(docid),
-            'telemedicine': fetch_telemedicine_from_gsheet(docid),
-            'model': fetch_modelparams_from_gsheet(docid),
-            'emis': fetch_emis_from_gsheet(docid),
-            'portal': fetch_portal_from_gsheet(docid),
-            'connectivity': fetch_connectivity_from_gsheet(docid),
-            'energy': fetch_energy_from_gsheet(docid)}
+    return {'project': fetch_from_gsheet(docid, *DEFAULT_PROJECT_PARAMS),
+            'usage': fetch_from_gsheet(docid, *DEFAULT_USAGE_PARAMS),
+            'assignment': fetch_from_gsheet(docid, *DEFAULT_ASSIGNMENT_PARAMS),
+            'community': fetch_from_gsheet(docid, *DEFAULT_COMMUNITY_PARAMS),
+            'lesson': fetch_from_gsheet(docid, *DEFAULT_LESSON_PARAMS),
+            'telemedicine': fetch_from_gsheet(docid, *DEFAULT_TELEMEDICINE_PARAMS),
+            'model': fetch_from_gsheet(docid, *DEFAULT_MODEL_PARAMS),
+            'emis': fetch_from_gsheet(docid, *DEFAULT_EMIS_PARAMS),
+            'portal': fetch_from_gsheet(docid, *DEFAULT_PORTAL_PARMS),
+            'connectivity': fetch_from_gsheet(docid, *DEFAULT_CONNECTIVITY_PARAMS),
+            'energy': fetch_from_gsheet(docid, *DEFAULT_ENERGY_PARAMS)}
 
 def fetch_default_params():
     return fetch_all_params_from_gsheet(DEFAULT_DOCID)
