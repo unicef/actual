@@ -35,6 +35,9 @@ class GigaParameters:
         with open(filename, 'w') as f:
             json.dump(serialize_params(self.params), f, indent=4)
 
+    def connectivity_speed(self, conn_type):
+        return float(self.table_params['connectivity'][self.table_params['connectivity']['Type'] == conn_type]['Speed'])
+
     @property
     def emis(self):
         return self.table_params['emis']
@@ -42,6 +45,14 @@ class GigaParameters:
     @property
     def portal(self):
         return self.table_params['portal']
+
+    @property
+    def connectivity(self):
+        return self.table_params['connectivity']
+
+    @property
+    def energy(self):
+        return self.table_params['energy']
 
     @property
     def fixed_bandwidth_rate(self):
@@ -98,3 +109,43 @@ class GigaParameters:
     @property
     def contention(self):
         return self.named_params['Contention']
+
+    @property
+    def labor_cost_skilled_hr(self):
+        return self.named_params['Skilled Labor Cost per Hour']
+
+    @property
+    def labor_cost_regular_hr(self):
+        return self.named_params['Regular Labor Cost per Hour']
+
+    @property
+    def fraction_community_using_school_internet(self):
+        return self.named_params['Fraction of Community Using School Internet']
+
+    @property
+    def income_per_household(self):
+        return self.named_params['Income per Household']
+
+    @property
+    def fraction_income_for_communications(self):
+        return self.named_params['Fraction of Income on Communications']
+
+    @property
+    def subscription_conversion_default(self):
+        return self.named_params['Default Subscription Conversion Rate']
+
+    @property
+    def revenue_over_cost_factor(self):
+        return self.named_params['Revenue Over Cost Factor']
+
+    @property
+    def speed_2g(self):
+        return self.connectivity_speed('2G')
+
+    @property
+    def speed_3g(self):
+        return self.connectivity_speed('3G')
+
+    @property
+    def speed_4g(self):
+        return self.connectivity_speed('4G')
