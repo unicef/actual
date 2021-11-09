@@ -1,0 +1,4 @@
+# Shared global vars
+
+DIRECT_STUDENT_INPUTS = ['num_students', 'NUMBER OF STUDENTS']
+DIRECT_TEACHER_INPUTS = ['NUMBER OF TEACHERS']

@@ -7,6 +7,7 @@ from giga.core.student import StudentEstimateNode
 from giga.core.teacher import TeacherEstimateNode
 from giga.core.classroom import ClassroomEstimateNode
 from giga.utils.logging import LOGGER
+from giga.utils.commons import DIRECT_STUDENT_INPUTS, DIRECT_TEACHER_INPUTS
 
 
 STUDENT_VAR = 'num_students'
@@ -19,6 +20,8 @@ REQUIRED_ARGUMENTS = ('population_file', 'school_age_fraction', 'school_enrollme
 OPTIONAL_ARGUMENTS = {'location_input': ['Lat', 'Lon'],
                       'school_use_radius': 10.0, # km
                       'internet_use_radius': 1.0, # km
+                      'skip_student_estimate': False,
+                      'skip_teacher_estimate': False,
                       }
 
 
@@ -65,13 +68,23 @@ class CensusNode:
         LOGGER.info(f"Completed nearby population estimate for {tag} in {radius} km radius")
         return n_neareby_schools, nearby_population
 
-    def student_estiamte(self, nearby_schools, nearby_population, params):
+    def fetch_existing_data(self, data, keys):
+        for k in keys:
+            if k in data:
+                return data[k]
+        raise KeyError(f"Unable to find one of {keys} in {data.keys()}")
+
+    def student_estiamte(self, data, nearby_schools, nearby_population, params):
+        if self.skip_student_estimate:
+            return list(self.fetch_existing_data(data, DIRECT_STUDENT_INPUTS))
         data = pd.DataFrame(list(zip(nearby_schools, nearby_population)), columns =[SCHOOL_USE_NERBY_COUNTS_VAR, SCHOOL_USE_POP_VAR])
         num_students = self.student_node.run(data, params)
         LOGGER.info("Completed student estimate")
         return num_students
 
-    def teacher_estimate(self, num_students, params):
+    def teacher_estimate(self, data, num_students, params):
+        if self.skip_teacher_estimate:
+            return list(self.fetch_existing_data(data, DIRECT_TEACHER_INPUTS))
         data = pd.DataFrame(list(num_students), columns =[STUDENT_VAR])
         num_teachers = self.teacher_node.run(data, params)
         LOGGER.info("Completed teacher estimate")
@@ -99,9 +112,9 @@ class CensusNode:
                                                                                     self.school_use_radius,
                                                                                     tag='school use')
         # student estimate
-        num_students = self.student_estiamte(n_neareby_schools, nearby_school_population, params)
+        num_students = self.student_estiamte(data, n_neareby_schools, nearby_school_population, params)
         # teacher estiamte
-        num_teachers = self.teacher_estimate(num_students, params)
+        num_teachers = self.teacher_estimate(data, num_students, params)
         # estimate number of classrooms
         num_classrooms = self.classroom_estiamte(num_teachers, params)
         # internet use census estimate
