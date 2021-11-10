@@ -1,6 +1,7 @@
 from giga.models.census import CensusNode
 from giga.core.consolidate import ConsolidationNode
 from giga.core.primary_bandwidth import PrimaryBandwithNode
+from giga.core.secondary_bandwidth import SecondaryBandwithNode
 from giga.core.tech import TechnologyNode
 from giga.core.cost import CostEstimateNode
 from giga.core.revenue import RevenueNode
@@ -8,8 +9,9 @@ from giga.core.business import BusinessModelNode
 from giga.utils.logging import LOGGER
 
 
-REQUIRED_INPUTS = ['tiff_file']
 FIXED_BANDWIDTH_FLAG = 'fixed_bandwidth'
+PRIMARY_BANDWIDTH_SELECTOR = 'critical'
+SECONDARY_BANDIWDTH_SELECTOR = 'non_critical'
 
 REQUIRED_ARGUMENTS = ('population_file', 'consolidation_radius', 'school_age_fraction', # census
                       'school_enrollment_fraction', 'student_teacher_ratio', 'teacher_classroom_ratio',
@@ -17,6 +19,14 @@ REQUIRED_ARGUMENTS = ('population_file', 'consolidation_radius', 'school_age_fra
                       'emis_usage', 'portal_usage', 'emis_allowable_transfer_time', 'peak_hours', # bandwidth
                       'internet_browsing_bandwidth', 'allowable_website_loading_time',
                       'contention', 'fixed_bandwidth_rate',
+                      'teacher_research_time', 'teacher_prep_hours', 'website_size',
+                      'num_daily_assignments_per_student', 'student_prep_time',
+                      'size_of_document', 'student_research_time', 'student_assignment_time',
+                      'gdoc_bandwidth', 'allowable_completed_assignment_loading_time',
+                      'video_data_rate', 'annual_checkups', 'illness_per_year',
+                      'consults_per_illness', 'consult_time', 'consult_hours',
+                      'weekly_sessions', 'session_length', 'community_access_hours',
+                      'weekly_planning_time', 'fraction_of_planning_time_browsing',
                       'speed_2g', 'speed_3g', 'speed_4g', # tech
                       'connectivity_params', 'energy_params', 'labor_cost_skilled', 'labor_cost_regular', # cost
                       'subscription_conversion_default', 'fraction_community_using_school_internet', # revenue
@@ -29,11 +39,14 @@ OPTIONAL_ARGUMENTS = {'location_input': ['Lat', 'Lon'],
                       'population_output': 'nearby_population',
                       'households_output': 'nearby_households',
                       'bandwidth_output': 'bandwidth',
+                      'critical_bandwidth_output': 'critical_bandwidth',
+                      'non_ciritical_bandwidth_output': 'non_critical_bandwidth',
                       'technology_output': 'technology',
                       'overnight_cost_output': 'overnight_cost',
                       'annual_cost_output': 'annual_cost',
                       'annual_revenue_output': 'annual_revenue',
-                      'business_model_output': 'explore_business_model'}
+                      'business_model_output': 'explore_business_model',
+                      'bandwidth_priority_model': 'both'}
 
 
 class GigaNode:
@@ -57,6 +70,7 @@ class GigaNode:
         self.census_node = CensusNode('census-node', **kwargs)
         # bandwidth
         self.primary_bandwidth_node = PrimaryBandwithNode('bandwidth-node', **kwargs)
+        self.secondary_bandwidth_node = SecondaryBandwithNode('non-critical-bandwidth-node', **kwargs)
         # tech
         self.technology_node = TechnologyNode('technology-node', **kwargs)
         # cost
@@ -91,12 +105,27 @@ class GigaNode:
         LOGGER.info(f"Completed census node")
         return data
 
+    def add_bandwidths(self, data, params):
+        if self.bandwidth_priority_model == PRIMARY_BANDWIDTH_SELECTOR:
+            primary = self.primary_bandwidth_node.run(data, params)
+            secondary = [0.0]*len(data)
+        elif self.bandwidth_priority_model == SECONDARY_BANDIWDTH_SELECTOR:
+            primary = [0.0]*len(data)
+            secondary = self.secondary_bandwidth_node.run(data, params)
+        else:
+            primary = self.primary_bandwidth_node.run(data, params)
+            secondary = self.secondary_bandwidth_node.run(data, params)
+        data[self.critical_bandwidth_output] = primary
+        data[self.non_ciritical_bandwidth_output] = secondary
+        return primary + secondary
+
+
     def bandwidth(self, data, params):
         if FIXED_BANDWIDTH_FLAG in params and params[FIXED_BANDWIDTH_FLAG]:
             LOGGER.info(f"Using fixed bandwidth rate of {self.fixed_bandwidth_rate} Mbps")
             bw = [self.fixed_bandwidth_rate]*len(data)
         else:
-            bw = self.primary_bandwidth_node.run(data, params)
+            bw = self.add_bandwidths(data, params)
         data[self.bandwidth_output] = bw
         LOGGER.info(f"Completed bandwidth estimate")
         return data
