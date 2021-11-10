@@ -1,6 +1,6 @@
 from setuptools import setup
 
-scripts = []
+scripts = ['bin/giga-analysis']
 
 with open('requirements.txt') as f:
     install_requires = f.read().splitlines()

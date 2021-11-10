@@ -56,6 +56,21 @@ If school data is avaible, you can try out using the [sample notebook](https://d
 To run the `giga` models, you can use the jupyter-notebook [here](https://drive.google.com/file/d/1tyHxSsp0G3_S1g0Zvwlm2QBj9hb7gEcR/view?usp=sharing).
 
 Additionally, you can use the command line interface made availble by the library to run the Giga models from the shell.
+The command below will:
+
+1. Create a new workspace (which downloads school, and default configuration data from the google sheet above) for Rwanda in `workspace/rwanda`
+2. Run the full Giga model analysis
+3. Write the results to `workspace/rwanda/results`
+
+```bash
+giga-analysis --school-data <your-school-data> --create-workspace workspace/rwanda --country Rwanda --results-directory workspace/rwanda/results
+```
+
+If you already have an existing workspace and want to run another analysis with new school data or updated Giga model parameters you can run the following command:
+
+```bash
+giga-analysis --school-data <your-school-data> --existing-workspace <existing-workspace-directory> --results-directory <desired-results-directory>
+```
 
 # About Giga: 
 Some 3.6 billion people in the world do not have access to the Internet. The lack of access to the internet means exclusion, marked by the lack of access to the wealth of information available online, fewer resources to learn and grow, and limited opportunities for the most vulnerable children and youth to fulfill their potential. Closing the digital divide requires global cooperation, leadership, and innovation in finance and technology. 
