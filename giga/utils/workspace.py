@@ -34,10 +34,12 @@ def get_country_border_data(country, target_file):
 def create_workspace(dir, country, docid=DEFAULT_DOCID):
     assert country in SUPPORTED_COUNTRIES, f"Country {country} is not supported, try one of {list(SUPPORTED_COUNTRIES.keys())}"
     # setup
+    border_dir = os.path.join(dir, 'border')
     Path(dir).mkdir(parents=True, exist_ok=True)
+    Path(border_dir).mkdir(parents=True, exist_ok=True)
     population_file = os.path.join(dir, 'population.tiff')
     config_file = os.path.join(dir, 'parameters.json')
-    border_file = os.path.join(dir, 'border.shp')
+    border_file = os.path.join(border_dir, 'border.shp')
     # fetch population
     popurl = SUPPORTED_COUNTRIES[country]['population']
     get_file_with_progress(popurl, population_file, f'{country} population data')

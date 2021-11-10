@@ -3,13 +3,14 @@ import os
 import argparse
 from pathlib import Path
 import pandas as pd
+import geopandas as gpd
 
 from giga.utils.workspace import create_workspace
 from giga.utils.commons import SUPPORTED_COUNTRIES, DEFAULT_DOCID
 from giga.models.giga import GigaNode
 from giga.utils.parameters import GigaParameters
 from giga.utils.parse import shool_data_from_excel
-
+from giga.utils.vis import plot_all
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
     optional.add_argument('--create-workspace', '-cw', type=str, default=None, help='Workspace directory that will get populated')
     optional.add_argument('--existing-workspace', '-ew', type=str, default=None, help='Existing workspace directory from which to run giga models')
     optional.add_argument('--country', '-c', type=str, default=None, help='Country of interest used to create workspace')
-    optional.add_argument('--google-sheet-id', '-g', type=str, default=DEFAULT_DOCID, help='Google sheet from which to load parameters')
+    optional.add_argument('--google-sheet-id', '-g', type=str, default=None, help='Google sheet from which to load parameters')
     args = parser.parse_args()
 
     if not args.create_workspace and not args.existing_workspace:
@@ -31,13 +32,17 @@ def main():
     if args.create_workspace:
         # create workspace
         assert args.country in SUPPORTED_COUNTRIES, f"Country {args.country} is not supported, try {list(SUPPORTED_COUNTRIES.keys())}"
+        docid = args.google_sheet_id if args.google_sheet_id else DEFAULT_DOCID
         config_file, population_file, border_file = create_workspace(args.create_workspace,
                                                                      args.country,
-                                                                     args.google_sheet_id)
+                                                                     docid)
         wrk_dir = args.create_workspace
     else:
         # load from existing workspace
         wrk_dir = args.existing_workspace
+        if args.google_sheet_id:
+            # fetch new google sheet parameters if id specified
+            _ = GigaParameters.from_google_sheet(args.google_sheet_id).to_json(os.path.join(args.existing_workspace, 'parameters.json'))
         config_file = os.path.join(args.existing_workspace, 'parameters.json')
         population_file = os.path.join(args.existing_workspace, 'population.tiff')
         border_file = os.path.join(args.existing_workspace, 'border.shp')
@@ -51,10 +56,11 @@ def main():
     # run the giga model
     giga_data = node.run(school_data, {})
     # write outputs
+    country_border = gpd.read_file(border_file)
     Path(args.results_directory).mkdir(parents=True, exist_ok=True)
     giga_data.to_csv(os.path.join(args.results_directory, 'results.csv'))
     giga_data.to_excel(os.path.join(args.results_directory, 'results.xlsx'))
-
+    plot_all(args.results_directory, giga_data, country_border)
 
 
 if __name__=='__main__':

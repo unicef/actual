@@ -13,8 +13,8 @@ OPTIONAL_ARGUMENTS = {'fiber_range': 10.0, # km
                       'output_4g': '4G',
                       'output_3g': '3G',
                       'output_2g': '2G',
-                      'output_fiber': 'WISP',
-                      'output_sattelite': 'Sattelite'}
+                      'output_wisp': 'WISP',
+                      'output_satellite': 'Satellite'}
 
 
 class TechnologyNode:
@@ -33,7 +33,7 @@ class TechnologyNode:
         else:
             return False
 
-    def valid_fiber(self, data):
+    def valid_wisp(self, data):
         if (data[self.fiber_input] >= self.fiber_range) and (data[self.fiber_input] < (self.fiber_range + self.wisp_range)):
             return True
         else:
@@ -42,14 +42,14 @@ class TechnologyNode:
     def determine_tech(self, datarow):
         if self.valid_coverage(datarow, self.speed_4g, COVERAGE_4G):
             return self.output_4g
-        elif self.valid_fiber(datarow):
-            return self.output_fiber
+        elif self.valid_wisp(datarow):
+            return self.output_wisp
         elif self.valid_coverage(datarow, self.speed_2g, COVERAGE_2G):
             return self.output_2g
         elif self.valid_coverage(datarow, self.speed_3g, COVERAGE_3G):
             return self.output_3g
         else:
-            return self.output_sattelite
+            return self.output_satellite
 
     def run(self, data, params):
         tech = data.apply(lambda row: self.determine_tech(row), axis=1)
