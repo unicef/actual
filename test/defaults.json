@@ -1,0 +1,557 @@
+{
+    "project": [
+        {
+            "Name": "Student Teacher Ratio",
+            "Value": 30.0,
+            "Units": null
+        },
+        {
+            "Name": "Teacher Classroom Ratio",
+            "Value": 1.2,
+            "Units": null
+        },
+        {
+            "Name": "School Age Fraction",
+            "Value": 0.37,
+            "Units": null
+        },
+        {
+            "Name": "School Enrollment Fraction",
+            "Value": 0.76,
+            "Units": null
+        },
+        {
+            "Name": "People per Household",
+            "Value": 6.0,
+            "Units": "People"
+        },
+        {
+            "Name": "Skilled Labor Cost per Hour",
+            "Value": 20.0,
+            "Units": "USD"
+        },
+        {
+            "Name": "Regular Labor Cost per Hour",
+            "Value": 4.0,
+            "Units": "USD"
+        },
+        {
+            "Name": "Income per Household",
+            "Value": 6700.0,
+            "Units": "USD/Yr"
+        },
+        {
+            "Name": "Fraction of Income on Communications",
+            "Value": 0.02,
+            "Units": null
+        },
+        {
+            "Name": "Subscription Conversion",
+            "Value": 0.07,
+            "Units": null
+        }
+    ],
+    "usage": [
+        {
+            "Name": "Fixed Bandwidth Rate",
+            "Value": 10.0,
+            "Units": "Mbps"
+        },
+        {
+            "Name": "EMIS Allowable Transfer Time",
+            "Value": 4.0,
+            "Units": "Hours"
+        },
+        {
+            "Name": "Allowable Website Loading Time",
+            "Value": 20.0,
+            "Units": "Seconds"
+        },
+        {
+            "Name": "Allowable Document Loading Time",
+            "Value": 60.0,
+            "Units": "Seconds"
+        },
+        {
+            "Name": "Allowable Completed Assignments Loading Time",
+            "Value": 10.0,
+            "Units": "Seconds"
+        },
+        {
+            "Name": "Peak Hours",
+            "Value": 9.0,
+            "Units": "Hours"
+        },
+        {
+            "Name": "Size of Website",
+            "Value": 700.0,
+            "Units": "KB"
+        },
+        {
+            "Name": "Size of Document",
+            "Value": 200.0,
+            "Units": "KB"
+        },
+        {
+            "Name": "Google Docs Bandwidth",
+            "Value": 20.0,
+            "Units": "Kbps"
+        },
+        {
+            "Name": "Internet Browsing Bandwidth",
+            "Value": 1.0,
+            "Units": "Mbps"
+        },
+        {
+            "Name": "Video Data Rate (480p)",
+            "Value": 0.59,
+            "Units": "Mbps"
+        },
+        {
+            "Name": "Teacher Prep Hours",
+            "Value": 4.0,
+            "Units": "Hours"
+        }
+    ],
+    "assignment": [
+        {
+            "Name": "Student Prep Time",
+            "Value": 4.0,
+            "Units": "Hours"
+        },
+        {
+            "Name": "Teacher Research Time",
+            "Value": 0.25,
+            "Units": "Hours"
+        },
+        {
+            "Name": "Number of Daily Assignments Per Student",
+            "Value": 2.0,
+            "Units": null
+        },
+        {
+            "Name": "Student Research Time",
+            "Value": 1.0,
+            "Units": "Hours"
+        },
+        {
+            "Name": "Student Assignments Time",
+            "Value": 2.0,
+            "Units": "Hours"
+        },
+        {
+            "Name": "Time to Grade One Assignment",
+            "Value": 5.0,
+            "Units": "Minutes"
+        }
+    ],
+    "community": [
+        {
+            "Name": "Fraction of Community Using School Internet",
+            "Value": 0.2,
+            "Units": null
+        },
+        {
+            "Name": "Session Length",
+            "Value": 30.0,
+            "Units": "Minutes"
+        },
+        {
+            "Name": "Weekly Sessions",
+            "Value": 2.0,
+            "Units": null
+        },
+        {
+            "Name": "Community Access Hours",
+            "Value": 8.0,
+            "Units": "Hours/Day"
+        },
+        {
+            "Name": "Contention",
+            "Value": 25.0,
+            "Units": "People/Slot"
+        }
+    ],
+    "lesson": [
+        {
+            "Name": "Weekly Planning Time",
+            "Value": 5.0,
+            "Units": "Hours"
+        },
+        {
+            "Name": "Fraction of Planning Time Browsing",
+            "Value": 0.2,
+            "Units": null
+        }
+    ],
+    "telemedicine": [
+        {
+            "Name": "Annual Checkups",
+            "Value": 1.0,
+            "Units": "Per Year"
+        },
+        {
+            "Name": "Illness per Year",
+            "Value": 2.0,
+            "Units": null
+        },
+        {
+            "Name": "Consults per Illness",
+            "Value": 3.0,
+            "Units": null
+        },
+        {
+            "Name": "Consult time",
+            "Value": 0.17,
+            "Units": "Hours/Patient"
+        },
+        {
+            "Name": "Consult hours",
+            "Value": 2.0,
+            "Units": "Hours/Day"
+        }
+    ],
+    "model": [
+        {
+            "Name": "School Consolidation Radius",
+            "Value": 0.01,
+            "Units": "km"
+        },
+        {
+            "Name": "School Use Radius",
+            "Value": 10.0,
+            "Units": "km"
+        },
+        {
+            "Name": "Internet Use Radius",
+            "Value": 1.0,
+            "Units": "km"
+        },
+        {
+            "Name": "Revenue Over Cost Factor",
+            "Value": 5.0,
+            "Units": null
+        },
+        {
+            "Name": "Default Subscription Conversion Rate",
+            "Value": 0.2,
+            "Units": null
+        }
+    ],
+    "emis": [
+        {
+            "Name": "Admin Enrollment",
+            "Description": "Size of enrollment data",
+            "Size": 500,
+            "Frequency": 12,
+            "User": "School",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Admin Cohort",
+            "Description": "Clas by class cohorot data",
+            "Size": 100,
+            "Frequency": 4,
+            "User": "Students",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Admin Behavioral",
+            "Description": "Disciplinary recods, etc",
+            "Size": 100,
+            "Frequency": 12,
+            "User": "Students",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Admin Special Needs",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 12,
+            "User": "Students",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Admin Indicators",
+            "Description": null,
+            "Size": 1000,
+            "Frequency": 4,
+            "User": "School",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Admin Financial Data",
+            "Description": "High-level finances",
+            "Size": 10000,
+            "Frequency": 12,
+            "User": "School",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Financial Budget",
+            "Description": null,
+            "Size": 10000,
+            "Frequency": 12,
+            "User": "School",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Financial School Fees",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 4,
+            "User": "Students",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Financial Supply and Inventory",
+            "Description": null,
+            "Size": 1000,
+            "Frequency": 12,
+            "User": "School",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "HR Salaries",
+            "Description": null,
+            "Size": 10,
+            "Frequency": 4,
+            "User": "Employees",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "HR Employee Profiles",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 4,
+            "User": "Employees",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "HR Professional Development",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 12,
+            "User": "Teachers",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "HR Certification and Training",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 4,
+            "User": "Teachers",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "HR Disciplinary Records",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 12,
+            "User": "Employees",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Outcomes Grades",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 12,
+            "User": "Students",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Outcomes National Assessments",
+            "Description": null,
+            "Size": 100,
+            "Frequency": 4,
+            "User": "Students",
+            "Type": "EMIS"
+        },
+        {
+            "Name": "Outcomes Classroom Assessments",
+            "Description": null,
+            "Size": 1000,
+            "Frequency": 4,
+            "User": "Classroom",
+            "Type": "EMIS"
+        }
+    ],
+    "portal": [
+        {
+            "Name": "Voter Registration",
+            "Description": null,
+            "Size": 1200,
+            "Usage Pattern": "Clustered",
+            "Time Period (Days)": 20,
+            "User": "Individuals",
+            "Type": "Portal"
+        },
+        {
+            "Name": "ID Renewal",
+            "Description": null,
+            "Size": 800,
+            "Usage Pattern": "Uniform",
+            "Time Period (Days)": 365,
+            "User": "Individuals",
+            "Type": "Portal"
+        },
+        {
+            "Name": "Annual Taxes",
+            "Description": null,
+            "Size": 4500,
+            "Usage Pattern": "Clustered",
+            "Time Period (Days)": 5,
+            "User": "Households",
+            "Type": "Portal"
+        },
+        {
+            "Name": "Bill Payments",
+            "Description": null,
+            "Size": 500,
+            "Usage Pattern": "Uniform",
+            "Time Period (Days)": 2,
+            "User": "Households",
+            "Type": "Portal"
+        },
+        {
+            "Name": "Complaints and Reporting",
+            "Description": null,
+            "Size": 500,
+            "Usage Pattern": "Uniform",
+            "Time Period (Days)": 365,
+            "User": "Individuals",
+            "Type": "Portal"
+        },
+        {
+            "Name": "e-Petitions",
+            "Description": null,
+            "Size": 500,
+            "Usage Pattern": "Uniform",
+            "Time Period (Days)": 60,
+            "User": "Individuals",
+            "Type": "Portal"
+        }
+    ],
+    "connectivity": [
+        {
+            "Type": "Fiber",
+            "Speed": 1500.0,
+            "Overnight Hardware Fixed": 1200,
+            "Overnight Labor Fixed": 5,
+            "Setup Fees": 250,
+            "Annual Hardware": 0.2,
+            "Annual Labor Time": 10,
+            "Annual Fees": 2000,
+            "Power": 500,
+            "Overnight Hardware Variable": 1000.0,
+            "Overnight Labor Varaible Time": 10.0,
+            "Subscription Conversion Rate": 0.2
+        },
+        {
+            "Type": "2G",
+            "Speed": 0.0625,
+            "Overnight Hardware Fixed": 75,
+            "Overnight Labor Fixed": 5,
+            "Setup Fees": 20,
+            "Annual Hardware": 0.2,
+            "Annual Labor Time": 2,
+            "Annual Fees": 1200,
+            "Power": 10,
+            "Overnight Hardware Variable": null,
+            "Overnight Labor Varaible Time": null,
+            "Subscription Conversion Rate": 0.1
+        },
+        {
+            "Type": "3G",
+            "Speed": 2.0,
+            "Overnight Hardware Fixed": 150,
+            "Overnight Labor Fixed": 5,
+            "Setup Fees": 75,
+            "Annual Hardware": 0.2,
+            "Annual Labor Time": 2,
+            "Annual Fees": 1200,
+            "Power": 10,
+            "Overnight Hardware Variable": null,
+            "Overnight Labor Varaible Time": null,
+            "Subscription Conversion Rate": 0.03
+        },
+        {
+            "Type": "4G",
+            "Speed": 40.0,
+            "Overnight Hardware Fixed": 300,
+            "Overnight Labor Fixed": 5,
+            "Setup Fees": 75,
+            "Annual Hardware": 0.2,
+            "Annual Labor Time": 2,
+            "Annual Fees": 1200,
+            "Power": 10,
+            "Overnight Hardware Variable": null,
+            "Overnight Labor Varaible Time": null,
+            "Subscription Conversion Rate": 0.005
+        },
+        {
+            "Type": "WISP",
+            "Speed": 400.0,
+            "Overnight Hardware Fixed": 1500,
+            "Overnight Labor Fixed": 10,
+            "Setup Fees": 200,
+            "Annual Hardware": 0.2,
+            "Annual Labor Time": 5,
+            "Annual Fees": 2000,
+            "Power": 200,
+            "Overnight Hardware Variable": null,
+            "Overnight Labor Varaible Time": null,
+            "Subscription Conversion Rate": 0.2
+        },
+        {
+            "Type": "Satellite",
+            "Speed": 150.0,
+            "Overnight Hardware Fixed": 4000,
+            "Overnight Labor Fixed": 5,
+            "Setup Fees": 200,
+            "Annual Hardware": 0.2,
+            "Annual Labor Time": 2,
+            "Annual Fees": 3000,
+            "Power": 200,
+            "Overnight Hardware Variable": null,
+            "Overnight Labor Varaible Time": null,
+            "Subscription Conversion Rate": 0.2
+        },
+        {
+            "Type": "WAN",
+            "Speed": 400.0,
+            "Overnight Hardware Fixed": 1500,
+            "Overnight Labor Fixed": 10,
+            "Setup Fees": 200,
+            "Annual Hardware": 0.2,
+            "Annual Labor Time": 5,
+            "Annual Fees": 0,
+            "Power": 200,
+            "Overnight Hardware Variable": null,
+            "Overnight Labor Varaible Time": null,
+            "Subscription Conversion Rate": 0.2
+        }
+    ],
+    "energy": [
+        {
+            "Type": "Battery",
+            "Overnight Hardware": 461,
+            "Overnight Labor Regular": 0.75,
+            "Overnight Labor Skilled": 1.25,
+            "Annual Hardware": 27.6,
+            "Annual Labor Regular": 0.125,
+            "Annual Labor Skilled": 0.075,
+            "Daylight": null
+        },
+        {
+            "Type": "Solar",
+            "Overnight Hardware": 1820,
+            "Overnight Labor Regular": 4.0,
+            "Overnight Labor Skilled": 4.0,
+            "Annual Hardware": 165.0,
+            "Annual Labor Regular": 2.0,
+            "Annual Labor Skilled": 2.0,
+            "Daylight": 12.0
+        }
+    ]
+}

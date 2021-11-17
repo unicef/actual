@@ -41,6 +41,8 @@ pip install -e .
 
 Giga is installed and you should be ready to use the models! Please note that you will need to activate the giga environment every-time you open a new shell with `conda activate <your-environment>`. You can deactivate the environment by running `conda deactivate`.
 
+You can check that the installation was succesful by running `pytest` from the root directory of the repository.
+
 # Configuration
 
 There are a number of ways to configure the Giga models. 
