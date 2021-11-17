@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import rasterio
 
@@ -42,6 +43,8 @@ class PopulationNode:
             creates a lon,lat -> pixel trasnform callback function and
             returns a CensusNode instance
         """
+        if not os.path.isfile(tiff_file):
+            return PopulationNode(node_name, np.zeros((0,0)), lambda x: 0.0, **kwargs)
         raw_dataset = rasterio.open(tiff_file)
         population_data = raw_dataset.read(1)
         # clip values below zero
@@ -62,6 +65,7 @@ class PopulationNode:
             return False
 
     def compute_nearby_population(self, datarow, radius):
+        if self.population_data.size == 0: return 0.0
         lat, lon = datarow[self.location_input]
         xidx, yidx = self.ll_to_pixel_transform((lon, lat))
         radius_catchment = radius / self.pixel_resolution
