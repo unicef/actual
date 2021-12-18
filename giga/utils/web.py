@@ -1,5 +1,5 @@
 import requests
-from tqdm import tqdm
+from tqdm import tqdm_notebook as tqdm
 
 
 BLOCK_SIZE = 1024 #1 Kibibyte

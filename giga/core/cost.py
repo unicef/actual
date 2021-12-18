@@ -33,10 +33,12 @@ class CostEstimateNode:
         return self.energy_params[self.energy_params[ENERGY_TYPE_IDENTIFIER] == self.solar_parameter]
 
     def estimate_overnight_fixed_cost(self):
+        # overnight_fixed
         labor = self.connectivity_params['Overnight Labor Fixed'] * self.labor_cost_skilled
         return self.connectivity_params['Setup Fees'] + self.connectivity_params['Overnight Hardware Fixed'] + labor
 
     def estimate_annual_cost(self, fixed):
+        # annual_cost
         hw_cost = self.connectivity_params['Annual Hardware'] * fixed
         labor_cost = self.connectivity_params['Annual Labor Time'] * self.labor_cost_regular
         return hw_cost + labor_cost + self.connectivity_params['Annual Fees']

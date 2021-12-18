@@ -1,10 +1,11 @@
 import json
 import pandas as pd
 
+from giga.utils.commons import DEFAULT_DOCID
 
-DEFAULT_DOCID = "1LsOLtcZG8FO9uF79H7Z_PdN6iHkuMyr5TXw3UllbahE"
-# Spreadsheet locations for the google sheet document above
-# https://docs.google.com/spreadsheets/d/1LsOLtcZG8FO9uF79H7Z_PdN6iHkuMyr5TXw3UllbahE/edit#gid=0
+
+# Spreadsheet locations for the google sheet with DEFAULT_DOCID
+# https://docs.google.com/spreadsheets/d/DEFAULT_DOCID/edit#gid=0
 # parmas = (gid, columns, start row, end row)
 DEFAULT_PROJECT_PARAMS = ('0', range(0,3), 3, 13)
 DEFAULT_USAGE_PARAMS = ('0', range(0,3), 16, 28)
