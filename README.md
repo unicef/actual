@@ -52,10 +52,10 @@ Please note, that you will need to use the google sheet ID of your new created d
 You can find additional instructions on how to do this in the example jupyter-notebook.
 Next, you will need school data and (optionally) population data. 
 You can use the tooling in the library to autmatically fetch relevant population data when you create a `giga` workspace. 
-If school data is avaible, you can try out using the [sample notebook](https://drive.google.com/file/d/1tyHxSsp0G3_S1g0Zvwlm2QBj9hb7gEcR/view?usp=sharing) to generate visual outputs of the model. 
+If school data is avaible, you can try out using the [sample notebook](https://nbviewer.org/github/actualhq/actualhq.github.io/blob/main/notebooks/giga-run-sample.ipynb) to generate visual outputs of the model. 
 
 # Running
-To run the `giga` models, you can use the jupyter-notebook [here](https://drive.google.com/file/d/1tyHxSsp0G3_S1g0Zvwlm2QBj9hb7gEcR/view?usp=sharing).
+To run the `giga` models, you can use the jupyter-notebook [here](https://nbviewer.org/github/actualhq/actualhq.github.io/blob/main/notebooks/giga-run-sample.ipynb).
 
 Additionally, you can use the command line interface made availble by the library to run the Giga models from the shell.
 The command below will:
