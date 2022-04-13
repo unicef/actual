@@ -12,4 +12,8 @@ SUPPORTED_COUNTRIES = {'Rwanda': {'FIPS': 'RW',
                        'Kenya': {'FIPS': 'KE',
                                  'population': 'https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/KEN/ken_ppp_2020.tif'},
                        'Sierra Leone': {'FIPS': 'SL',
-                                        'population': 'https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/SLE/sle_ppp_2020.tif'}}
+                                        'population': 'https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/SLE/sle_ppp_2020.tif'},
+                        'Zimbabwe': {'FIPS': 'ZI',
+                                     'population': 'https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/ZWE/zwe_ppp_2020.tif'}
+
+                        }

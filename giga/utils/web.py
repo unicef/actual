@@ -1,5 +1,12 @@
 import requests
-from tqdm import tqdm_notebook as tqdm
+from giga.utils.notebooks import is_notebook
+
+if is_notebook():
+    from tqdm import tqdm_notebook as tqdm
+else:
+    from tqdm import tqdm
+
+
 
 
 BLOCK_SIZE = 1024 #1 Kibibyte
