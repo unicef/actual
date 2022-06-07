@@ -6,6 +6,7 @@ import numpy as np
 
 TECH_COLORS = {#'fiber':'Black',
                'WISP':'lawngreen',
+               'Fiber': 'black',
                'Satellite':'Orange',
                '2G':'Yellow',
                '3G':'green',

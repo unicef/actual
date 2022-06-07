@@ -45,7 +45,7 @@ def main():
             _ = GigaParameters.from_google_sheet(args.google_sheet_id).to_json(os.path.join(args.existing_workspace, 'parameters.json'))
         config_file = os.path.join(args.existing_workspace, 'parameters.json')
         population_file = os.path.join(args.existing_workspace, 'population.tiff')
-        border_file = os.path.join(args.existing_workspace, 'border.shp')
+        border_file = os.path.join(args.existing_workspace, 'border', 'border.shp')
 
     # create a parameter set from our config file
     parameters = GigaParameters.from_json(config_file)
